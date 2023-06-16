@@ -15,7 +15,7 @@ jobs:
         uses: spectralops/spectral-github-action@v4
         with:
           spectral-dsn: ${{ secrets.SPECTRAL_DSN }}
-          spectral-args: scan --engines iac --include-tags iac --sarif --log debug
+          spectral-args: scan --ok --engines iac --include-tags iac --sarif --log debug
       - name: Upload SARIF File
         uses: github/codeql-action/upload-sarif@v2
         with:
