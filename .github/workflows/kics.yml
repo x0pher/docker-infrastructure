@@ -13,25 +13,25 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-        # Scan Iac with kics
-      - name: run kics Scan
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      # Makes results directory
+      - name: Mkdir results-dir
+        run: mkdir -p results-dir
+      # Scan IaC with KICS
+      - name: Run KICS Scan with SARIF result
         uses: checkmarx/kics-github-action@v1.7.0 
         with:
-          # scanning a single file
-          # path: 'Dockerfile'
+          # path: '/'
           ignore_on_exit: results
-          output_path: myResults/
-          # Display the results in json format
-      - name: display kics results
+          output_path: results-dir
+          output_formats: 'json,sarif'
+      # Show results in security tab
+      - name: Show results
         run: |
-          cat myResults/results.json
+          cat results-dir/results.sarif
+          cat results-dir/results.json
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
-        # Results are generated only on a success or failure
-        # this is required since GitHub by default won't run the next step
-        # when the previous one has failed.
-        # And alternative it to add `continue-on-error: true` to the previous step
-        if: success() || failure()
         with:
-          sarif_file: results.sarif
+          sarif_file: results-dir/results.sarif
