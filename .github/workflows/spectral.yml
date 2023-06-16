@@ -4,6 +4,10 @@ on: [push]
 
 jobs:
   scan:
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,4 +15,6 @@ jobs:
         uses: spectralops/spectral-github-action@v4
         with:
           spectral-dsn: ${{ secrets.SPECTRAL_DSN }}
-          spectral-args: scan --engines iac --include-tags iac
+          spectral-args: scan --engines iac --include-tags iac --sarif
+
+    
