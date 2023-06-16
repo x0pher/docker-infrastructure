@@ -1,7 +1,7 @@
 name: TEST Kics Scan
 
 on:
-    pull_request:
+    push:
     
 jobs:
     scan:
