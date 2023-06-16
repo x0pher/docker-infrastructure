@@ -1,24 +1,37 @@
 name: TEST Kics Scan 2
 
 on:
-    push:
+  push:
     
 jobs:
-    scan:
-        runs-on: ubuntu-latest
-        # Steps represent a sequence of tasks that will be executed as part of the job
-        steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v3
-            # Scan Iac with kics
-            - name: run kics Scan
-              uses: checkmarx/kics-github-action@v1.7.0 
-              with:
-                  # scanning a single file
-                  path: 'Dockerfile'
-                  ignore_on_exit: results
-                  output_path: myResults/
+  scan:
+    permissions:
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        # Scan Iac with kics
+      - name: run kics Scan
+        uses: checkmarx/kics-github-action@v1.7.0 
+        with:
+          # scanning a single file
+          path: 'Dockerfile'
+          ignore_on_exit: results
+          output_path: myResults/
           # Display the results in json format
-            - name: display kics results
-              run: |
-                cat myResults/results.json
+      - name: display kics results
+        run: |
+          cat myResults/results.json
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        # Results are generated only on a success or failure
+        # this is required since GitHub by default won't run the next step
+        # when the previous one has failed.
+        # And alternative it to add `continue-on-error: true` to the previous step
+        if: success() || failure()
+        with:
+          # The SARIF Log file name is configurable on scan action
+          # therefore the file name is best read from the steps output
+          sarif_file: ${{ steps.iac-scan.outputs.iac_scan_result_sarif_path }}
