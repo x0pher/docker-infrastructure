@@ -16,6 +16,7 @@ jobs:
               with:
                   # scanning a single file
                   path: 'Dockerfile'
+                  ignore_on_exit: results
                   output_path: myResults/
           # Display the results in json format
             - name: display kics results
