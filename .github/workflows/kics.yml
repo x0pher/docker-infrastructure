@@ -21,6 +21,7 @@ jobs:
         uses: checkmarx/kics-github-action@v1.7.0 
         with:
           path: 'gradle,src,Dockerfile,gradlew'
+          ignore_on_exit: results
           output_path: results-dir
           output_formats: 'json,sarif'
       - name: Show results
