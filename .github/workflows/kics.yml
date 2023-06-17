@@ -1,32 +1,29 @@
-name: TEST Kics Scan 2
+name: Kics scan and SARIF upload
 
 on:
   push:
-    
+  pull_request:
+  
 jobs:
-  scan:
+  kics-job:
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read
       contents: read
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    name: kics-action
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repo
         uses: actions/checkout@v3
-      # Makes results directory
       - name: Mkdir results-dir
         run: mkdir -p results-dir
-      # Scan IaC with KICS
       - name: Run KICS Scan with SARIF result
         uses: checkmarx/kics-github-action@v1.7.0 
         with:
-          # path: '/'
+          # path: 'docker-infrastructure'
           ignore_on_exit: results
           output_path: results-dir
           output_formats: 'json,sarif'
-      # Show results in security tab
       - name: Show results
         run: |
           cat results-dir/results.sarif
