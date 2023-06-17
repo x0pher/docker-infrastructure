@@ -20,7 +20,7 @@ jobs:
       - name: Run KICS Scan with SARIF result
         uses: checkmarx/kics-github-action@v1.7.0 
         with:
-          path: 'docker-infrastructure'
+          path: 'gradle,src,Dockerfile,gradlew'
           output_path: results-dir
           output_formats: 'json,sarif'
       - name: Show results
