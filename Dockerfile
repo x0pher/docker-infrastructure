@@ -1,9 +1,6 @@
 # Pull a base ubuntu image
 FROM ubuntu
 
-export http_proxy="http://proxy-dmz.intel.com:912"
-export https_proxy="http://proxy-dmz.intel.com:912"
-export no_proxy="127.0.0.1,*.intel.com"
 
 # Add local code
 WORKDIR /ansible
