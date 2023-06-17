@@ -1,4 +1,4 @@
-val kotlinVersion = "1.3.20"
+
 val seleniumVersion = "3.141.59"
 val testContainersVersion = "1.17.5"
 val log4jVersion = "2.17.2"
@@ -30,7 +30,7 @@ dependencies {
     api("org.seleniumhq.selenium:selenium-support:$seleniumVersion")
     implementation("com.atlassian.performance.tools:io:[1.0.0,2.0.0)")
     implementation("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.testcontainers:testcontainers:$testContainersVersion")
     implementation("org.testcontainers:selenium:$testContainersVersion")
     log4j(
